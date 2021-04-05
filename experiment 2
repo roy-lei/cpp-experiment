@@ -1,0 +1,45 @@
+//task 1
+#include<iostream>
+using namespace std;
+
+enum CPU_Rank { i3, i5 = 3, i7 };
+
+int main()
+{
+	CPU_Rank mypc = i7;
+	cout << mypc << endl;
+
+	CPU_Rank yourpc;
+	int a;
+	cin >> a;
+	yourpc = (CPU_Rank)a;
+	cout << yourpc << endl;
+
+
+}
+
+
+//task 2
+#include<iostream>
+#include<string>
+using namespace std;
+
+void change1(string str)
+{
+	str = "alter\n";
+}
+
+void change2(string& s1)
+{
+	s1 = "alter\n";
+}
+
+int main()
+{
+	string str = "original";
+	change1(str);
+	cout << str << endl;
+	change2(str);
+	cout << str << endl;
+	return 0;
+}
