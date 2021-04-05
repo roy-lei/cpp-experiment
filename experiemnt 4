@@ -1,0 +1,66 @@
+#include<iostream>
+using namespace std;
+
+enum CPU_Rank{i3,i5,i7,i9};
+
+class cpu {
+private:
+	CPU_Rank rr;
+	int frequency;
+	float voltage;
+public:
+
+	//有参数的cpu类构造函数，初始列表的方式进行初始
+	cpu(CPU_Rank rank, int f, float v) : rr(rank), frequency(f), voltage(v) 
+	{ cout << "正在构造对象" << endl; }
+
+	cpu()//无参数的cpu类构造函数
+	{
+		cout << "正在构造默认对象" << endl;
+	}
+
+	//cpu类的复制构造函数
+	cpu(cpu& p);
+
+	//cpu类的析构函数
+	~cpu()
+	{
+		cout << "正在删除对象" << endl;
+	}
+};
+
+
+cpu::cpu(cpu& p) {
+	rr = p.rr;
+	frequency = p.frequency;
+	voltage = p.voltage;
+	cout << "正在复制构造对象" << endl;
+}
+
+void fun1(cpu m)
+{
+	cout <<"正在复制构造对象"<< endl;
+}
+cpu fun2()
+{
+	cpu n((CPU_Rank)3, 1800, 18.8);
+	return n;
+}
+
+int main()
+{
+	cpu cpu1();
+	cpu cpu2((CPU_Rank)0, 2500, 30.6);
+	
+	
+	cpu cpu3;
+
+	//调用复制函数的三种方式
+	cpu a((CPU_Rank)2, 2000, 24.6);
+	cpu3 = a;
+	fun1(cpu3);
+	cpu3 = fun2();
+
+
+	return 0;
+}
