@@ -1,0 +1,119 @@
+c++实验3 任务一
+#include<iostream>
+using namespace std;
+
+class Clock {
+public:
+	void settime(int hour = 8, int min = 8, int second = 8);
+	void showtime() {
+		cout << hour << ":" << min << ":" << second << endl;
+	}
+
+private:
+	int hour, min, second;
+};
+
+void Clock::settime(int nh, int nm, int ns)
+{
+	hour = nh;
+	min = nm;
+	second = ns;
+}
+
+int main()
+{
+	Clock clock1;
+	clock1.settime(6, 50, 30);
+	clock1.showtime();
+
+	Clock clock2;
+	clock2.settime();
+	clock2.showtime();
+
+}
+
+
+
+实验三 任务2
+#include<iostream>
+using namespace std;
+
+enum CPU_Rank{i3,i5,i7,i9};
+
+class CPU {
+private:
+	CPU_Rank rr;
+	int frequency;
+	float voltage;
+public:
+	CPU_Rank getrank();
+	int getfrequency();
+	float getvoltage();
+	void setrank(CPU_Rank r)
+	{
+		rr = r;
+	}
+	void setfrequency(int f)
+	{
+		frequency = f;
+	}
+	void setvoltage(float v)
+	{
+		voltage = v;
+	}
+	void print();
+	void run() { cout << "CPU开始运行！" << endl; }
+	void stop() { cout << "CPU停止运行！" << endl; }
+};
+
+CPU_Rank CPU::getrank()
+{
+	CPU_Rank rank;
+	int t;
+	cin >> t;
+	rank = (CPU_Rank)t;
+	return rank;
+	
+}
+
+int CPU::getfrequency()
+{
+	int v;
+	cin >> v;
+	return v;
+}
+
+float CPU::getvoltage()
+{
+	float v;
+	cin >> v;
+	return v;
+}
+
+void CPU::print()
+{
+	cout << "CPU rank is: ";
+	switch (rr) {
+	case 0:cout << "i3" << endl;; break;
+	case 1:cout << "i5" << endl; break;
+	case 2:cout << "i7" << endl; break;
+	case 3:cout << "i9" << endl; break;
+	}
+
+	cout << "frequncy is: " << frequency << endl;
+	cout << "voltage is: " << voltage << endl;
+}
+
+
+int main()
+{
+	CPU cpu;
+	cout << "please input the rank,frequency and voltage:" << endl;
+	cpu.setrank(cpu.getrank());
+	cpu.setfrequency(cpu.getfrequency());
+	cpu.setvoltage(cpu.getvoltage());
+	cpu.print();
+	cpu.run();
+	cpu.stop();
+	return 0;
+}
