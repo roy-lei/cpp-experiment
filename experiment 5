@@ -1,0 +1,182 @@
+#include<iostream>
+using namespace std;
+
+enum CPU_Rank { i3, i5, i7, i9 };
+
+class CPU {
+private:
+	CPU_Rank cpurank;
+	int cpufrequency;
+	float cpuvoltage;
+public:
+	CPU() {};
+	CPU(CPU_Rank RANK, int F, float V) :cpurank(RANK), cpufrequency(F), cpuvoltage(V) {};
+	CPU(CPU& cc) {
+		cpurank = cc.cpurank;
+		cpufrequency = cc.cpufrequency;
+		cpuvoltage = cc.cpuvoltage;
+	};
+	~CPU() {};
+	CPU_Rank getrank();
+	int getfrequency();
+	float getvoltage();
+
+	void setrank(CPU_Rank r)
+	{
+		cpurank = r;
+	}
+	void setfre(int f)
+	{
+		cpufrequency = f;
+	}
+	void setvoltage(float v)
+	{
+		cpuvoltage = v;
+	}
+	void print();
+	void run() { cout << "CPU开始运行！" << endl; }
+	void stop() { cout << "CPU停止运行！" << endl; }
+};
+
+CPU_Rank CPU::getrank()
+{
+	return cpurank;
+}
+
+int CPU::getfrequency()
+{
+	return cpufrequency;
+}
+
+float CPU::getvoltage()
+{
+	return cpuvoltage;
+}
+
+void CPU::print()
+{
+	cout << cpurank << endl;
+	cout << cpufrequency << endl;
+	cout << cpuvoltage << endl;
+}
+
+
+
+enum RAM_Rank { DDR, DDR2, DDR3 };
+class RAM {
+private:
+	RAM_Rank rank;
+	int memory;
+	float frequency;
+public:
+	RAM() {};//构造函数
+	RAM(RAM_Rank rr, int mm, float ff) :rank(rr), memory(mm), frequency(ff) {};
+	RAM(RAM& r) {
+		rank = r.rank;
+		memory = r.memory;
+		frequency = r.frequency;
+	};//复制构造函数
+	~RAM() {};//析构函数
+	RAM_Rank getrank() {
+		return rank;
+	}
+	int getmemory() {
+		return memory;
+	}
+	float getfrequency() {
+		return frequency;
+	}
+	void SetRank(RAM_Rank r);
+	void SetFrequency(float f);
+	void SetMemory(int m);
+	void Print() {
+		cout << getrank() << endl;
+		cout << getmemory() << endl;
+		cout << getfrequency() << endl;
+	}
+	void Run() {
+		cout << "RAM开始运行!" << endl;
+	}
+	void Stop() {
+		cout << "RAM停止运行!" << endl;
+	}
+};
+
+void RAM::SetRank(RAM_Rank r) {
+	rank = r;
+}
+
+void RAM::SetFrequency(float f) {
+	frequency = f;
+}
+
+void RAM::SetMemory(int m) {
+	memory = m;
+}
+
+
+
+
+
+class COMPUTER {
+private:
+	CPU cpu;
+	RAM ram;
+	int price;
+
+public:
+	COMPUTER() {
+		cout << "默认构造了一个COMPUTER!" << endl;
+	}//默认构造函数
+	COMPUTER(CPU ncpu, RAM nram, int np) :cpu(ncpu), ram(nram), price(np) {
+		cout << "初始化构造了一个COMPUTER!" << endl;
+	}//带形参的初始式构造函数
+	COMPUTER(COMPUTER& com) {
+		cout << "调用COMPUTER的复制构造函数" << endl;
+		cpu = com.cpu;
+		ram = com.ram;
+		price = com.price;
+	}
+	~COMPUTER() {
+		cout << "正在删除COMPUTER对象!" << endl;
+	}//析构函数
+
+	void SetComputer(CPU c, RAM r, int p) {
+		cpu = c;
+		ram = r;
+		price = p;
+	}
+	void Print() {
+		cpu.print();
+		ram.Print();
+		cout << price << endl;
+	}
+	void Run() {
+		cpu.run();
+		ram.Run();
+		cout << "COMPUTER开始运行!" << endl;
+	}
+	void Stop() {
+		cpu.stop();
+		ram.Stop();
+		cout << "COMPUTER停止运行!" << endl;
+	}
+};
+
+int main()
+{
+	CPU mycpu(i5, 2400, 2.8);
+	RAM myram(DDR3, 8, 2.4);
+	COMPUTER computer1(mycpu, myram, 2500);
+	computer1.Print();
+	computer1.Run();
+	computer1.Stop();
+
+	COMPUTER computer2 = computer1;
+	computer2.Print();
+	CPU yourcpu(i7, 2400, 4);
+	RAM yourram(DDR3, 8, 2.4);
+	computer2.SetComputer(yourcpu, yourram, 2500);
+	computer2.Print();
+	return 0;
+}
