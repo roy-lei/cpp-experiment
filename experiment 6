@@ -1,0 +1,241 @@
+#include<iostream>
+using namespace std;
+
+enum CPU_Rank { i3, i5, i7, i9 };
+
+class CPU {
+private:
+	CPU_Rank cpurank;
+	int cpufrequency;
+	float cpuvoltage;
+	int cprice;
+	friend class COMPUTER;
+public:
+	CPU() {};
+	CPU(CPU_Rank RANK, int F, float V,int P) :cpurank(RANK), cpufrequency(F), cpuvoltage(V),cprice(P) {};
+	CPU(CPU& cc) {
+		cpurank = cc.cpurank;
+		cpufrequency = cc.cpufrequency;
+		cpuvoltage = cc.cpuvoltage;
+		cprice = cc.cprice;
+	};
+	
+
+	~CPU() {};
+	CPU_Rank getrank();
+	int getfrequency();
+	float getvoltage();
+	int getprice();
+
+	void setrank(CPU_Rank r)
+	{
+		cpurank = r;
+	}
+	void setfre(int f)
+	{
+		cpufrequency = f;
+	}
+	void setvoltage(float v)
+	{
+		cpuvoltage = v;
+	}
+	void setprice(int p)
+	{
+		cprice = p;
+	}
+	void print();
+	void run() { cout << "CPU开始运行！" << endl; }
+	void stop() { cout << "CPU停止运行！" << endl; }
+};
+
+CPU_Rank CPU::getrank()
+{
+	return cpurank;
+}
+
+int CPU::getfrequency()
+{
+	return cpufrequency;
+}
+
+float CPU::getvoltage()
+{
+	return cpuvoltage;
+}
+
+int CPU::getprice()
+{
+	return cprice;
+}
+
+void CPU::print()
+{
+	cout << "CPU的型号是: " << cpurank << endl;
+	cout << "CPU的频率是: " << cpufrequency << endl;
+	cout << "CPU的电压是: " << cpuvoltage << endl;
+	cout << "CPU的价格是: " << cprice << endl;
+}
+
+
+
+enum RAM_Rank { DDR, DDR2, DDR3 };
+class RAM {
+private:
+	RAM_Rank rank;
+	int memory;
+	float frequency;
+	int price;
+	friend class COMPUTER;
+public:
+	RAM() {};//构造函数
+	RAM(RAM_Rank rr, int mm, float ff,int pp) :rank(rr), memory(mm), frequency(ff) ,price(pp){};
+	RAM(RAM& r) {
+		rank = r.rank;
+		memory = r.memory;
+		frequency = r.frequency;
+		price = r.price;
+	};//复制构造函数
+	~RAM() {};//析构函数
+	RAM_Rank getrank() {
+		return rank;
+	}
+	int getmemory() {
+		return memory;
+	}
+	float getfrequency() {
+		return frequency;
+	}
+	int getprice() {
+		return price;
+	}
+	void SetRank(RAM_Rank r);
+	void SetFrequency(float f);
+	void SetMemory(int m);
+	void SetPrice(int p);
+	void Print() {
+		cout << "RAM的类型是: " << getrank() << endl;
+		cout << "RAM的内存是: " << getmemory() << endl;
+		cout << "RAM的频率是: " << getfrequency() << endl;
+		cout << "RAM的价格是: " << getprice() << endl;
+	}
+	void Run() {
+		cout << "RAM开始运行!" << endl;
+	}
+	void Stop() {
+		cout << "RAM停止运行!" << endl;
+	}
+};
+
+void RAM::SetRank(RAM_Rank r) {
+	rank = r;
+}
+
+void RAM::SetFrequency(float f) {
+	frequency = f;
+}
+
+void RAM::SetMemory(int m) {
+	memory = m;
+}
+
+void RAM::SetPrice(int p) {
+	price = p;
+}
+
+
+
+
+
+class COMPUTER {
+private:
+	CPU cpu;
+	RAM ram;
+	int price;
+	static int count;
+
+public:
+	
+
+	COMPUTER() {
+		cout << "默认构造了一个COMPUTER!" << endl;
+		count++;
+	}//默认构造函数
+	COMPUTER(CPU ncpu, RAM nram,int np) :cpu(ncpu), ram(nram),price(np) {
+		cout << "初始化构造了一个COMPUTER!" << endl;
+		count++;
+	}//带形参的初始式构造函数
+	COMPUTER(COMPUTER& com) {
+		cout << "调用COMPUTER的复制构造函数" << endl;
+		cpu = com.cpu;
+		ram = com.ram;
+		count++;
+	}
+	~COMPUTER() {
+		cout << "正在删除COMPUTER对象!" << endl;
+		count--;
+	}//析构函数
+
+	//静态函数输出数量
+	static void printcount()
+	{
+		cout << "数量是" << count << endl << endl;
+	}
+
+	//设置价格
+	void setprice(int p1, int p2)
+	{
+		cpu.cprice = p1;
+		ram.price = p2;
+		price = p1 + p2;
+	}
+
+	void SetComputer(CPU c, RAM r, int p) {
+		cpu = c;
+		ram = r;
+		price = p;
+	}
+	void Print() {
+		cpu.print();
+		ram.Print();
+		cout <<"电脑的价格是: " << price << endl;
+	}
+	void Run() {
+		cpu.run();
+		ram.Run();
+		cout << "COMPUTER开始运行!" << endl;
+	}
+	void Stop() {
+		cpu.stop();
+		ram.Stop();
+		cout << "COMPUTER停止运行!" << endl;
+	}
+};
+
+
+int COMPUTER::count = 0;
+
+int main()
+{
+	COMPUTER::printcount();
+
+	CPU cpu1(i3, 2400, 2.8,1000);
+	RAM ram1(DDR, 8, 2.4,1000);
+	COMPUTER computer1(cpu1, ram1, 2000);
+	computer1.Print();
+	COMPUTER::printcount();
+
+	CPU cpu2(i5, 2500, 3.1, 1500);
+	RAM ram2(DDR2, 10, 2.5, 1500);
+	COMPUTER computer2(cpu2, ram2, 3000);
+	computer2.Print();
+	COMPUTER::printcount();
+	
+	CPU cpu3(i7, 2400, 4,2000);
+	RAM ram3(DDR3, 12, 2.7,2000);
+	COMPUTER computer3(cpu3, ram3, 4500);
+	computer3.setprice(cpu3.getprice(), ram3.getprice());
+	computer3.Print();
+	COMPUTER::printcount();
+
+	return 0;
+}
