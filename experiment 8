@@ -37,27 +37,6 @@ public:
 	{ cout << "CPU停止运行！" << endl; }
 };
 
-//CPU_Rank CPU::getrank()
-//{
-//	return cpurank;
-//}
-//
-//int CPU::getfrequency()
-//{
-//	return cpufrequency;
-//}
-//
-//float CPU::getvoltage()
-//{
-//	return cpuvoltage;
-//}
-//
-//void CPU::print()
-//{
-//	cout << cpurank << endl;
-//	cout << cpufrequency << endl;
-//	cout << cpuvoltage << endl;
-//}
 
 //动态数组类
 class ArrayOfCpu {
@@ -110,7 +89,7 @@ int main()
 	delete[] cc;
 
 	//创建动态数组类对象1，设置两个元素的值
-	ArrayOfCpu cpuarray1;
+	ArrayOfCpu cpuarray1(2);
 	cpuarray1.ccpu(0).setcpu(i3, 33,33.3);
 	cpuarray1.ccpu(1).setcpu(i5, 55, 55.5);
 
