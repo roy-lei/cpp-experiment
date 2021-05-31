@@ -1,0 +1,129 @@
+#include<iostream>
+#include<cassert>
+using namespace std;
+
+enum CPU_Rank { i3, i5, i7, i9 };
+
+class CPU {
+private:
+	CPU_Rank cpurank;
+	int cpufrequency;
+	float cpuvoltage;
+public:
+	CPU() {};
+	CPU(CPU_Rank RANK, int F, float V) :cpurank(RANK), cpufrequency(F), cpuvoltage(V) {};
+	CPU(CPU& cc) {
+		cpurank = cc.cpurank;
+		cpufrequency = cc.cpufrequency;
+		cpuvoltage = cc.cpuvoltage;
+	};
+	~CPU() {};
+	CPU_Rank getrank();
+	int getfrequency();
+	float getvoltage();
+
+	void setcpu(CPU_Rank rr, int ff, float vv) {
+		cpurank = rr;
+		cpufrequency = ff;
+		cpuvoltage = vv;
+	}
+	void print()
+	{
+		cout << cpurank << "  " << cpufrequency << "  " << cpuvoltage << endl;
+	}
+	void run() 
+	{ cout << "CPU开始运行！" << endl; }
+	void stop() 
+	{ cout << "CPU停止运行！" << endl; }
+};
+
+//CPU_Rank CPU::getrank()
+//{
+//	return cpurank;
+//}
+//
+//int CPU::getfrequency()
+//{
+//	return cpufrequency;
+//}
+//
+//float CPU::getvoltage()
+//{
+//	return cpuvoltage;
+//}
+//
+//void CPU::print()
+//{
+//	cout << cpurank << endl;
+//	cout << cpufrequency << endl;
+//	cout << cpuvoltage << endl;
+//}
+
+//动态数组类
+class ArrayOfCpu {
+private:
+	CPU* pcpu;
+	int size;
+public:
+	//构造函数
+	ArrayOfCpu() {
+		size = 0;
+		pcpu = new CPU[size];
+		cout << "调用默认构造函数" << endl;
+	}
+	ArrayOfCpu(int nsize){
+		size = nsize;
+		pcpu = new CPU[size];
+		cout << "调用构造函数" << endl;
+	}
+
+	//复制构造函数
+	ArrayOfCpu(ArrayOfCpu& narray) {
+		size = narray.size;
+		pcpu = new CPU[size];
+		for (int i = 0; i < size; i++)
+			pcpu[i] = narray.pcpu[i];
+		cout << "深复制构造函数调用" << endl;
+	}
+
+	//析构函数
+	~ArrayOfCpu() {
+		delete[] pcpu;
+		cout << "删除动态数组" << endl;
+	}
+
+	//返回下标为i的数组的CPU
+	CPU& ccpu(int i) {
+		assert(i >= 0 && i < size);
+		return pcpu[i];
+	}
+};
+
+int main()
+{
+	//动态创建一个含两个对象的cpu数组，设置两个对象的值，输出参数的值后删除数组
+	CPU* cc = new CPU[2];
+	cc[0].setcpu(i3, 34, 54.6);
+	cc[0].print();
+	cc[1].setcpu(i5, 25, 23.3);
+	cc[1].print();
+	delete[] cc;
+
+	//创建动态数组类对象1，设置两个元素的值
+	ArrayOfCpu cpuarray1;
+	cpuarray1.ccpu(0).setcpu(i3, 33,33.3);
+	cpuarray1.ccpu(1).setcpu(i5, 55, 55.5);
+
+	//创建动态数组类2，将1的值赋给2，输出2的参数值
+	ArrayOfCpu cpuarray2 = cpuarray1;
+	cpuarray2.ccpu(0).print();
+	cpuarray2.ccpu(1).print();
+
+	//修改后输出参数值
+	cpuarray1.ccpu(0).setcpu(i7, 77, 77.7);
+	cpuarray1.ccpu(1).setcpu(i9, 99, 99.9);
+	cpuarray2.ccpu(0).print();
+	cpuarray2.ccpu(1).print();
+
+	return 0;
+}
