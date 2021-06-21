@@ -1,0 +1,170 @@
+#include<iostream>
+
+using namespace std;
+
+class vehicle 
+{
+private:
+	int maxspeed;
+	float weight;
+
+public:
+	vehicle() 
+	{
+		cout << "默认 the vehicle has been constructed" << endl;
+	}//默认构造函数
+
+	vehicle(int maxv,float g):maxspeed(maxv),weight(g)
+	{
+		cout << "the vehicle has been constructed" << endl;
+	}//参数值的构造函数
+
+	//复制构造函数
+	vehicle(vehicle& cp)
+	{
+		cout << "the vehicle has been copied" << endl;
+		maxspeed = cp.maxspeed;
+		weight = cp.weight;
+	}
+
+	//析构函数
+	~vehicle()
+	{
+		cout << "the vehicle has been deconstructed" << endl;
+	}
+
+	void print()
+	{
+		cout << "the maxspeed is: " << maxspeed << endl;
+		cout << "the weight is: " << weight << endl;
+	}
+
+	void run()
+	{
+		cout << "the vehicle is running!" << endl;
+	}
+
+	void stop()
+	{
+		cout << "the vehicle has stopped" << endl;
+	}
+};
+
+
+class motorcar :public vehicle 
+{
+private:
+	float length;
+	float height;
+	float gas;
+public:
+	//默认构造函数
+	motorcar()
+	{
+		cout << "默认 the motorcar has been constructed" << endl;
+	}
+
+	//带参数的构造函数
+	motorcar(int maxv,float weigh,float nlen,float nheight,float ngas):vehicle(maxv,weigh),
+		length(nlen),height(nheight),gas(ngas)
+	{
+		cout << "the motorcar has been constructed" << endl;
+	}
+
+	//复制构造函数
+	motorcar(motorcar& cpmotor):vehicle(cpmotor)
+	{
+		length = cpmotor.length;
+		height = cpmotor.height;
+		gas = cpmotor.gas;
+		cout << "the motorcar has been copied" << endl;
+	}
+
+	//析构函数
+	~motorcar()
+	{
+		cout << "the motorcar has been deconstructed" << endl;
+	}
+
+	void print()
+	{
+		vehicle::print();
+		cout << "the length is: " << length << endl;
+		cout << "the height is: " << height << endl;
+		cout << "the gas is: " << gas << endl;
+	}
+
+	void run()
+	{
+		cout << "the motorcar is running" << endl;
+	}
+
+	void stop()
+	{
+		cout << "the motorcar has stopped" << endl;
+	}
+};
+
+
+class motorcycle :public motorcar
+{
+private:
+	int power;
+public:
+	//默认构造函数
+	motorcycle()
+	{
+		cout << "默认 the motorcycle has been constructed" << endl;
+	}
+
+	//参数的构造函数
+	motorcycle(int maxv, int weigh, float nlen, float nheight, float ngas, int pow) :
+		motorcar(maxv, weigh, nlen, nheight, ngas), power(pow)
+	{
+		cout << "the motorcycle has been constructed" << endl;
+	}
+
+	//复制构造函数
+	motorcycle(motorcycle& cpcycle) :motorcar(cpcycle)
+	{
+		power = cpcycle.power;
+		cout << "the motorcycle has been copied" << endl;
+	}
+
+	//析构函数
+	~motorcycle()
+	{
+		cout << "the motorcycle has been deconstructed" << endl;
+	}
+
+	void print()
+	{
+		motorcar::print();
+		cout << "the power is: " << power << endl;
+	}
+
+	void run()
+	{
+		cout << "the motorcycle is running" << endl;
+	}
+
+	void stop()
+	{
+		cout << "the motorcycle has stopped" << endl;
+	}
+};
+
+
+int main()
+{
+	vehicle v1(270, 988.2);
+	v1.print();
+
+	motorcar mot1(270, 988.2, 3.1, 1.5, 4.5);
+	mot1.print();
+
+	motorcycle cycle(270, 988.2, 3.1, 1.5, 4.5, 500);
+	cycle.print();
+	
+	return 0;
+}
