@@ -5,7 +5,6 @@ using namespace std;
 
 
 template<class T>
-
 class Array 
 {
 private:
@@ -14,7 +13,6 @@ private:
 public:
 	//构造函数
 	Array(int sz = 0);
-
 
 	//复制构造函数
 	Array(const Array<T>& a);
@@ -27,34 +25,18 @@ public:
 	const T& operator[] (int i)const;
 	Array<T> operator+ (const Array<T> a2);
 	Array<T> operator- (const Array<T> b2);
-	operator T* ()
-	{
-		return list;
-	}
-	operator T* ()const
-	{
-		return list;
-	}
-	int getsize()const
-	{
-		return this->size;
-	}
-	void resize(int sz)
-	{
-		assert(sz >= 0);
-		if (sz == size)
-			return;
-		T* newlist = new T[sz];
-		int n = (sz < size) ? sz : size;
-		for (int i = 0; i < n; i++)
-			newlist[i] = list[i];
-		delete[] list;
-		list = newlist;
-		size = sz;
-	}
+	operator T* ();
+	operator T* ()const;
 
-	friend ostream& operator<< (const ostream& out, const Array<T>& c);
+	int getsize()const;
+	void resize(int sz);
 
+	friend ostream& operator<<(ostream& out, const Array<T>& c)
+	{
+		for (int i = 0; i < c.size; i++)
+			out << c.list[i] << " ";
+		return out;
+	}
 };
 
 template<class T>
@@ -114,7 +96,7 @@ template<class T>
 Array<T> Array<T>::operator+ (const Array<T> a1)
 {
 	if (size != a1.size)
-		return;
+		return *this;
 	for (int i = 0; i < size; i++)
 		list[i] += a1.list[i];
 	return *this;
@@ -125,27 +107,54 @@ template<class T>
 Array<T> Array<T>::operator-(const Array<T> b1)
 {
 	if (size != b1.size)
-		return;
+		return *this;
 	for (int i = 0; i < size; i++)
 		list[i] -= b1.list[i];
 	return *this;
 }
 
+template<class T>
+Array<T>::operator T *()
+{
+	return list;
+}
 
 template<class T>
-ostream& operator<<(const ostream& out, const Array<T>& c)
+Array<T>::operator T* ()const
 {
-	for (int i = 0; i < c.size; i++)
-		out << c.list[i];
-	return out;
+	return list;
+}
+
+template<class T>
+int Array<T>::getsize()const
+{
+	return this->size;
+}
+
+template<class T>
+void Array<T>::resize(int sz)
+{
+	assert(sz >= 0);
+	if (sz == size)
+		return;
+	T* newlist = new T[sz];
+	int n = (sz < size) ? sz : size;
+	for (int i = 0; i < n; i++)
+		newlist[i] = list[i];
+	delete[] list;
+	list = newlist;
+	size = sz;
 }
 
 
 int main()
 {
-	Array<int>s1[5] = { 11111 };
-	Array<int>s2[5] = { 22222 };
-	cout << s1 - s2 << endl;
-	cout << s2 - s1 << endl;
+	Array<int>s1(2);
+	Array<int>s2(2);
+	for (int i = 0; i < 2; i++)
+		cin >> s1[i];
+	for (int i = 0; i < 2; i++)
+		cin >> s2[i];
+	cout << s1 - s2;
 	return 0;
 }
